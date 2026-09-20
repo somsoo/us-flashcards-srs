@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://us-flashcards-srs.enjoy-onepage.com/sitemap.xml
