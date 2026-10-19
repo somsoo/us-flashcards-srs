@@ -1,28 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Spaced Repetition Flashcards - Under maintenance</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="site-status" content="maintenance">
-<meta name="description" content="This tool is temporarily offline while it is rebuilt.">
+<title>Spaced Repetition Flashcards</title>
+<meta name="description" content="Study and memorize faster with the Leitner spaced repetition flashcard system.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://us-flashcards-srs.enjoy-onepage.com/">
+<meta name="theme-color" content="#7c3aed">
+<link rel="icon" href="/favicon.ico">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Spaced Repetition Flashcards">
+<meta property="og:title" content="Spaced Repetition Flashcards">
+<meta property="og:description" content="Study and memorize faster with the Leitner spaced repetition flashcard system.">
+<meta property="og:url" content="https://us-flashcards-srs.enjoy-onepage.com/">
+<meta property="og:image" content="https://us-flashcards-srs.enjoy-onepage.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Spaced Repetition Flashcards">
+<meta name="twitter:description" content="Study and memorize faster with the Leitner spaced repetition flashcard system.">
+<meta name="twitter:image" content="https://us-flashcards-srs.enjoy-onepage.com/og-image.png">
+<link rel="alternate" type="application/rss+xml" title="Flashcard SRS RSS" href="https://us-flashcards-srs.enjoy-onepage.com/rss.xml">
+<link rel="sitemap" type="application/xml" href="https://us-flashcards-srs.enjoy-onepage.com/sitemap.xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://us-flashcards-srs.enjoy-onepage.com/#webapp",
+      "name": "Spaced Repetition Flashcards",
+      "url": "https://us-flashcards-srs.enjoy-onepage.com/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "inLanguage": "en",
+      "description": "An interactive Leitner spaced repetition flashcard study engine featuring multi-box progression, instant card flipping, study statistics, and exportable custom decks.",
+      "image": "https://us-flashcards-srs.enjoy-onepage.com/og-image.png",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://us-flashcards-srs.enjoy-onepage.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Leitner spaced repetition system?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Leitner system organizes study cards into 5 progressive difficulty boxes. Cards answered correctly move to higher boxes for less frequent review, while forgotten cards return to Box 1 for immediate repetition."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does spaced repetition prevent the forgetting curve?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By timing reviews just as memory begins to decay according to Ebbinghaus forgetting models, spaced repetition reinforces neural synapses and permanently transfers short-term knowledge into long-term recall."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I create and export my own flashcard decks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can add unlimited custom front and back flashcards, switch between curated vocabulary and medical decks, and download or upload your decks as JSON backup files at any time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my flashcards or study statistics saved on a server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. All study cards, Leitner box states, and review history execute 100% locally in your web browser. Zero personal notes or study metrics are transferred or stored on external servers."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!-- ADSENSE START: loader -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2228289204702106" crossorigin="anonymous"></script>
+<!-- ADSENSE END: loader -->
 <style>
-  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; }
-  main { max-width: 560px; margin: 12vh auto; padding: 32px 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; }
-  h1 { font-size: 1.4rem; margin: 0 0 12px; }
-  p { line-height: 1.6; color: #334155; }
-  a { color: #1d4ed8; font-weight: 600; }
-  .tag { display: inline-block; font-size: .8rem; font-weight: 700; color: #92400e; background: #fef3c7; border-radius: 999px; padding: 4px 10px; margin-bottom: 14px; }
+:root{--bg:#f5f3ff;--card:#fff;--ink:#0f172a;--muted:#475569;--accent:#7c3aed;--accent-hover:#6d28d9;--line:#ede9fe;--box1:#ef4444;--box2:#f97316;--box3:#eab308;--box4:#3b82f6;--box5:#10b981}
+*{box-sizing:border-box}
+html,body{margin:0;max-width:100%;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-wrap:anywhere}
+.header{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;text-align:center;padding:26px 16px 22px}
+.header h1{margin:0;font-size:1.7rem}
+.header-sub{opacity:.92;margin-top:6px;font-size:.95rem}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 14px 8px}
+.grid2{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:1024px){.grid2{grid-template-columns:7fr 5fr;align-items:start}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin:14px 0}
+.grid2 .card{margin:0}
+.card h2{font-size:1.15rem;margin:4px 0 10px}
+.lbl{display:block;font-weight:600;margin:8px 0 4px;font-size:.92rem}
+input[type=text],textarea,select{width:100%;font:inherit;font-size:1rem;padding:8px 10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;min-height:60px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>div{flex:1 1 120px;min-width:0}
+.btn{font:inherit;border:1px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:10px;padding:8px 13px;cursor:pointer;transition:background .15s}
+.btn:hover{background:#f8fafc}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.btn.primary:hover{background:var(--accent-hover)}
+.btn.sm{padding:4px 10px;font-size:.86rem;border-radius:8px}
+.btn-again{background:#fee2e2;color:#991b1b;border-color:#fca5a5;font-weight:700}
+.btn-again:hover{background:#fecaca}
+.btn-good{background:#dcfce7;color:#166534;border-color:#86efac;font-weight:700}
+.btn-good:hover{background:#bbf7d0}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+
+/* Flashcard Viewer Styles */
+.flashcard-wrap{perspective:1000px;margin:14px 0;cursor:pointer}
+.flashcard{position:relative;width:100%;min-height:220px;border-radius:16px;box-shadow:0 4px 12px rgba(124,58,237,.1);transition:transform .4s;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;border:2px solid var(--line);background:#fff}
+.flashcard.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;width:100%;height:100%;top:0;left:0;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;border-radius:14px}
+.card-face.back{transform:rotateY(180deg);background:#faf5ff}
+.card-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;margin-bottom:12px;background:#ede9fe;color:var(--accent)}
+.card-term{font-size:1.6rem;font-weight:800;color:var(--ink);margin:0}
+.card-def{font-size:1.25rem;font-weight:600;color:#334155;margin:0}
+.card-hint{margin-top:14px;font-size:.82rem;color:var(--muted)}
+
+.box-pill{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.76rem;font-weight:700;color:#fff}
+.box-1{background:var(--box1)}.box-2{background:var(--box2)}.box-3{background:var(--box3)}.box-4{background:var(--box4)}.box-5{background:var(--box5)}
+
+.box-distribution{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0;text-align:center}
+.box-stat{border-radius:8px;padding:6px 2px;background:#f8fafc;border:1px solid #e2e8f0;font-size:.82rem}
+.box-stat-val{font-size:1.2rem;font-weight:800;margin-top:2px}
+
+.deck-table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:10px}
+.deck-table th,.deck-table td{padding:6px 8px;border-bottom:1px solid #f1f5f9;text-align:left}
+.deck-table th{background:#f8fafc;color:var(--muted)}
+.del-btn{color:#dc2626;background:none;border:none;cursor:pointer;font-weight:bold;padding:0 4px}
+
+.hint{font-size:.86rem;color:var(--muted);margin:6px 0}
+.notice{border-color:#fcd34d;background:#fffbeb}
+.faq-item h3{font-size:1rem;margin:12px 0 4px}
+.faq-item p{margin:0;color:#334155}
+.src{font-size:.82rem;color:var(--muted)}
+.ad-box{max-width:1100px;margin:10px auto;padding:0 14px;background:transparent;overflow:hidden;text-align:center}
+.ad-top ins{max-height:90px}
+.footer{text-align:center;font-size:.85rem;color:var(--muted);padding:18px 14px 28px}
+.footer a{color:var(--muted);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:90vw}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
 </style>
 </head>
 <body>
-<main>
-  <span class="tag">Under maintenance</span>
+<header class="header">
   <h1>Spaced Repetition Flashcards</h1>
-  <p>This tool is temporarily offline. We found that the previous version did not work the way it was described, so we took it down while we rebuild it properly.</p>
-  <p>Please check back later.</p>
-  <p><a href="https://enjoy-onepage.com/">Browse our other free tools</a></p>
+  <div class="header-sub">Leitner 5-Box Interval Study Engine · Ebbinghaus Curve Retention · 100% Private</div>
+</header>
+
+<!-- ADSENSE START: top -->
+<div class="ad-box ad-top">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="3824727725" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<!-- ADSENSE END: top -->
+
+<main class="wrap">
+  <div class="grid2">
+    <!-- Flashcard Study Player Card -->
+    <section class="card" aria-labelledby="player-h">
+      <h2 id="player-h">🗂️ Active Study Session</h2>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div>
+          <span id="studyDeckLabel" style="font-weight:700;color:var(--accent)">GRE Vocabulary</span>
+          <span class="hint" id="cardProgress">· Card 1 of 10</span>
+        </div>
+        <div id="cardBoxBadge" class="box-pill box-1">Box 1 (Daily)</div>
+      </div>
+
+      <!-- Interactive Flip Card -->
+      <div id="flashcardWrap" class="flashcard-wrap" role="button" tabindex="0" aria-label="Flashcard. Click or press space to flip.">
+        <div id="flashcard" class="flashcard">
+          <div class="card-face front">
+            <span class="card-badge">PROMPT / FRONT</span>
+            <div id="cardFrontText" class="card-term">Ephemeral</div>
+            <div class="card-hint">💡 Tap anywhere or press Space to reveal answer</div>
+          </div>
+          <div class="card-face back">
+            <span class="card-badge">ANSWER / REVERSE</span>
+            <div id="cardBackText" class="card-def">Lasting for a very short time; transient.</div>
+            <div class="card-hint">Rate your recall below to adjust the interval</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating Controls -->
+      <div class="row" style="margin-top:10px">
+        <div>
+          <button type="button" id="btnAgain" class="btn btn-again" style="width:100%">❌ Again (Box 1)<br><small>[Key: 1]</small></button>
+        </div>
+        <div>
+          <button type="button" id="btnGood" class="btn btn-good" style="width:100%">✓ Good (+1 Box)<br><small>[Key: 2]</small></button>
+        </div>
+      </div>
+
+      <label class="lbl" style="margin-top:16px">Leitner Box Mastery Distribution</label>
+      <div class="box-distribution">
+        <div class="box-stat"><div style="color:var(--box1);font-weight:700">Box 1</div><div id="statBox1" class="box-stat-val">10</div><span class="src">Daily</span></div>
+        <div class="box-stat"><div style="color:var(--box2);font-weight:700">Box 2</div><div id="statBox2" class="box-stat-val">0</div><span class="src">3 Days</span></div>
+        <div class="box-stat"><div style="color:var(--box3);font-weight:700">Box 3</div><div id="statBox3" class="box-stat-val">0</div><span class="src">Weekly</span></div>
+        <div class="box-stat"><div style="color:var(--box4);font-weight:700">Box 4</div><div id="statBox4" class="box-stat-val">0</div><span class="src">2 Wks</span></div>
+        <div class="box-stat"><div style="color:var(--box5);font-weight:700">Box 5</div><div id="statBox5" class="box-stat-val">0</div><span class="src">Master</span></div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="btnShuffle" class="btn sm">🔀 Shuffle Deck</button>
+        <button type="button" id="btnResetProgress" class="btn sm">↺ Reset Box Levels</button>
+      </div>
+      <p class="hint">Keyboard shortcuts: <strong>Space</strong> flips card, <strong>1</strong> for Again, <strong>2</strong> for Good.</p>
+    </section>
+
+    <!-- Deck Management & Card Editor Card -->
+    <section class="card" aria-labelledby="manager-h">
+      <h2 id="manager-h">📚 Decks &amp; Card Management</h2>
+
+      <label class="lbl" for="selPresetDeck">Select Curated Deck</label>
+      <select id="selPresetDeck">
+        <option value="gre" selected>GRE / SAT Advanced Vocabulary (10 cards)</option>
+        <option value="spanish">Spanish Core Essentials (10 cards)</option>
+        <option value="medical">Medical Terminology Roots (10 cards)</option>
+        <option value="custom">My Custom Deck</option>
+      </select>
+
+      <div style="border-top:1px solid var(--line);margin:14px 0 10px;padding-top:10px">
+        <h3 style="font-size:1rem;margin:0 0 8px">Add Card to Current Deck</h3>
+        <label class="lbl" for="newFront">Front (Question / Prompt)</label>
+        <input type="text" id="newFront" placeholder="e.g. Ubiquitous">
+        <label class="lbl" for="newBack">Back (Answer / Meaning)</label>
+        <textarea id="newBack" placeholder="e.g. Present, appearing, or found everywhere."></textarea>
+        <div style="margin-top:8px">
+          <button type="button" id="btnAddCard" class="btn primary sm">+ Add Flashcard</button>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--line);margin:14px 0 10px;padding-top:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="font-size:1rem;margin:0">Cards in Deck (<span id="deckCount">10</span>)</h3>
+          <div>
+            <button type="button" id="btnExportJson" class="btn sm" title="Download backup">⬇ Export</button>
+          </div>
+        </div>
+        <div style="max-height:200px;overflow-y:auto;margin-top:6px">
+          <table class="deck-table" aria-label="Deck cards list">
+            <thead>
+              <tr>
+                <th>Front</th>
+                <th>Back</th>
+                <th>Box</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cardTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:14px">
+        <button type="button" id="btnShareApp" class="btn sm">🔗 Share Flashcards</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ADSENSE START: mid -->
+  <div class="ad-box ad-mid">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="1186914926" data-ad-format="rectangle" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <!-- ADSENSE END: mid -->
+
+  <!-- Educational Guide -->
+  <section class="card" aria-labelledby="guide-h">
+    <h2 id="guide-h">📖 Cognitive Science: The Leitner Spaced Repetition Method</h2>
+    <p>Spaced Repetition Systems (SRS) are grounded in Hermann Ebbinghaus's seminal research on the human forgetting curve. Without strategic reinforcement, memory retention drops by over 50% within 24 hours of initial acquisition:</p>
+    <ul>
+      <li><strong>The Leitner 5-Box Framework:</strong> Devised by science journalist Sebastian Leitner in 1972, cards are categorized into sequential compartments. Box 1 cards are reviewed daily; Box 2 every 3 days; Box 3 weekly; Box 4 bi-weekly; Box 5 monthly or considered mastered.</li>
+      <li><strong>Synaptic Consolidation:</strong> Testing recall at the threshold of forgetting triggers active neural retrieval, significantly strengthening synaptic connections compared to passive massed rereading ("cramming").</li>
+      <li><strong>Active Recall Testing:</strong> Forcing your brain to retrieve answers prior to revealing card backs prevents the illusion of competence and promotes durable semantic memory.</li>
+    </ul>
+    <p class="src">Cognitive references: Ebbinghaus H. (1885) <em>Memory: A Contribution to Experimental Psychology</em>; Leitner S. (1972) <em>So lernt man lernen</em>; Dunlosky et al. (2013) <em>Improving Students' Learning With Effective Learning Techniques</em>.</p>
+  </section>
+
+  <section class="card" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">❓ Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>What is the Leitner spaced repetition system?</h3><p>The Leitner system organizes study cards into 5 progressive difficulty boxes. Cards answered correctly move to higher boxes for less frequent review, while forgotten cards return to Box 1 for immediate repetition.</p></div>
+    <div class="faq-item"><h3>How does spaced repetition prevent the forgetting curve?</h3><p>By timing reviews just as memory begins to decay according to Ebbinghaus forgetting models, spaced repetition reinforces neural synapses and permanently transfers short-term knowledge into long-term recall.</p></div>
+    <div class="faq-item"><h3>Can I create and export my own flashcard decks?</h3><p>Yes. You can add unlimited custom front and back flashcards, switch between curated vocabulary and medical decks, and download or upload your decks as JSON backup files at any time.</p></div>
+    <div class="faq-item"><h3>Are my flashcards or study statistics saved on a server?</h3><p>No. All study cards, Leitner box states, and review history execute 100% locally in your web browser. Zero personal notes or study metrics are transferred or stored on external servers.</p></div>
+  </section>
+
+  <section class="card notice" aria-labelledby="note-h">
+    <h2 id="note-h">⚠️ Note on Study Optimization</h2>
+    <p>For maximum memory consolidation, keep flashcard prompts concise and atomic (one key concept or definition per card). Short, focused daily study sessions of 10 to 15 minutes yield significantly higher long-term retention than long weekly cram sessions.</p>
+  </section>
 </main>
+
+<!-- ADSENSE START: bottom -->
+<div class="ad-box ad-bottom">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2228289204702106" data-ad-slot="3416334507" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<!-- ADSENSE END: bottom -->
+
+<footer class="footer">
+  <p>Free Spaced Repetition Flashcards · 100% private and client-side.</p>
+  <p><a href="/disclaimer.html">Disclaimer</a> | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Service</a></p>
+</footer>
+
+<div id="global-ux-toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- LOGIC START -->
+<script>
+(function () {
+  'use strict';
+  var SITE = 'https://us-flashcards-srs.enjoy-onepage.com';
+  var TOOL_NAME = 'Spaced Repetition Flashcards';
+  var STORAGE_DECKS = 'us_srs_decks';
+  var STORAGE_ACTIVE_DECK = 'us_srs_active_deck';
+
+  var DEFAULT_DECKS = {
+    gre: [
+      { front: 'Ephemeral', back: 'Lasting for a very short time; transient.', box: 1 },
+      { front: 'Ubiquitous', back: 'Present, appearing, or found everywhere.', box: 1 },
+      { front: 'Anachronism', back: 'A thing belonging or appropriate to a period other than that in which it exists.', box: 1 },
+      { front: 'Esoteric', back: 'Intended for or likely to be understood by only a small number of people.', box: 1 },
+      { front: 'Pragmatic', back: 'Dealing with things sensibly and realistically based on practical considerations.', box: 1 },
+      { front: 'Cacophony', back: 'A harsh, discordant mixture of sounds.', box: 1 },
+      { front: 'Enervate', back: 'To cause someone to feel drained of energy or vitality; weaken.', box: 1 },
+      { front: 'Garrulous', back: 'Excessively talkative, especially on trivial matters.', box: 1 },
+      { front: 'Inchoate', back: 'Just begun and so not fully formed or developed; rudimentary.', box: 1 },
+      { front: 'Malleable', back: 'Easily influenced, pliable; able to be hammered or pressed permanently out of shape.', box: 1 }
+    ],
+    spanish: [
+      { front: 'Hola', back: 'Hello / Hi (Standard greeting)', box: 1 },
+      { front: 'Gracias', back: 'Thank you', box: 1 },
+      { front: 'Por favor', back: 'Please', box: 1 },
+      { front: 'Amigo / Amiga', back: 'Friend', box: 1 },
+      { front: 'Tiempo', back: 'Time / Weather', box: 1 },
+      { front: 'Verdad', back: 'Truth', box: 1 },
+      { front: 'Hermoso', back: 'Beautiful / Gorgeous', box: 1 },
+      { front: 'Aprender', back: 'To learn', box: 1 },
+      { front: 'Siempre', back: 'Always', box: 1 },
+      { front: 'Casa', back: 'House / Home', box: 1 }
+    ],
+    medical: [
+      { front: 'Tachy-', back: 'Rapid / Fast (e.g. Tachycardia: abnormally rapid heart rate)', box: 1 },
+      { front: 'Brady-', back: 'Slow (e.g. Bradycardia: abnormally slow heart rate)', box: 1 },
+      { front: 'Dys-', back: 'Difficult, painful, or abnormal (e.g. Dyspnea: difficulty breathing)', box: 1 },
+      { front: 'Hyper-', back: 'Above, excessive, or beyond normal (e.g. Hypertension)', box: 1 },
+      { front: 'Hypo-', back: 'Below, deficient, or under (e.g. Hypoglycemia: low blood sugar)', box: 1 },
+      { front: 'Nephro-', back: 'Relating to the kidneys (e.g. Nephrology)', box: 1 },
+      { front: 'Hepato-', back: 'Relating to the liver (e.g. Hepatitis)', box: 1 },
+      { front: 'Cardio-', back: 'Relating to the heart (e.g. Cardiology)', box: 1 },
+      { front: 'Osteo-', back: 'Relating to bones (e.g. Osteoporosis)', box: 1 },
+      { front: 'Neuro-', back: 'Relating to nerves or the nervous system (e.g. Neuropathy)', box: 1 }
+    ]
+  };
+
+  var userDecks = {};
+  var currentDeckKey = 'gre';
+  var currentIndex = 0;
+  var isFlipped = false;
+
+  function $(id) { return document.getElementById(id); }
+
+  function showToast(msg) {
+    var toast = $('global-ux-toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._tid);
+    toast._tid = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+  }
+
+  function loadDecks() {
+    try {
+      var saved = localStorage.getItem(STORAGE_DECKS);
+      userDecks = saved ? JSON.parse(saved) : {};
+    } catch (e) { userDecks = {}; }
+
+    // Initialize defaults if missing
+    ['gre', 'spanish', 'medical'].forEach(function (k) {
+      if (!userDecks[k] || !Array.isArray(userDecks[k]) || userDecks[k].length === 0) {
+        userDecks[k] = JSON.parse(JSON.stringify(DEFAULT_DECKS[k]));
+      }
+    });
+
+    if (!userDecks['custom']) {
+      userDecks['custom'] = [];
+    }
+
+    try {
+      var savedKey = localStorage.getItem(STORAGE_ACTIVE_DECK);
+      if (savedKey && userDecks[savedKey]) currentDeckKey = savedKey;
+    } catch (e) {}
+
+    $('selPresetDeck').value = currentDeckKey;
+    updateDeckUI();
+  }
+
+  function saveDecks() {
+    try {
+      localStorage.setItem(STORAGE_DECKS, JSON.stringify(userDecks));
+      localStorage.setItem(STORAGE_ACTIVE_DECK, currentDeckKey);
+    } catch (e) {}
+  }
+
+  function getCurrentDeck() {
+    return userDecks[currentDeckKey] || [];
+  }
+
+  function flipCard() {
+    isFlipped = !isFlipped;
+    $('flashcard').classList.toggle('flipped', isFlipped);
+  }
+
+  function updateDeckUI() {
+    var deck = getCurrentDeck();
+    var names = { gre: 'GRE Vocabulary', spanish: 'Spanish Essentials', medical: 'Medical Roots', custom: 'My Custom Deck' };
+    $('studyDeckLabel').textContent = names[currentDeckKey] || 'Flashcards';
+    $('deckCount').textContent = deck.length;
+
+    if (deck.length === 0) {
+      $('cardFrontText').textContent = 'No cards in this deck';
+      $('cardBackText').textContent = 'Add cards in the right-hand panel.';
+      $('cardProgress').textContent = '· Empty';
+      $('cardBoxBadge').textContent = 'Empty';
+      $('cardBoxBadge').className = 'box-pill box-1';
+      renderCardTable();
+      updateBoxStats();
+      return;
+    }
+
+    if (currentIndex >= deck.length) currentIndex = 0;
+    var card = deck[currentIndex];
+
+    // Reset flip state to front
+    isFlipped = false;
+    $('flashcard').classList.remove('flipped');
+
+    $('cardFrontText').textContent = card.front;
+    $('cardBackText').textContent = card.back;
+    $('cardProgress').textContent = '· Card ' + (currentIndex + 1) + ' of ' + deck.length;
+
+    var box = card.box || 1;
+    var boxLabels = { 1: 'Box 1 (Daily)', 2: 'Box 2 (3 Days)', 3: 'Box 3 (Weekly)', 4: 'Box 4 (2 Wks)', 5: 'Box 5 (Mastered)' };
+    $('cardBoxBadge').textContent = boxLabels[box] || 'Box ' + box;
+    $('cardBoxBadge').className = 'box-pill box-' + box;
+
+    renderCardTable();
+    updateBoxStats();
+  }
+
+  function updateBoxStats() {
+    var deck = getCurrentDeck();
+    var counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    deck.forEach(function (c) {
+      var b = c.box || 1;
+      if (counts[b] !== undefined) counts[b]++;
+    });
+    $('statBox1').textContent = counts[1];
+    $('statBox2').textContent = counts[2];
+    $('statBox3').textContent = counts[3];
+    $('statBox4').textContent = counts[4];
+    $('statBox5').textContent = counts[5];
+  }
+
+  function renderCardTable() {
+    var tbody = $('cardTableBody');
+    var deck = getCurrentDeck();
+    tbody.innerHTML = '';
+
+    if (deck.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted)">No cards added yet.</td></tr>';
+      return;
+    }
+
+    deck.forEach(function (c, idx) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td><strong>' + escapeHtml(c.front) + '</strong></td>' +
+        '<td>' + escapeHtml(c.back) + '</td>' +
+        '<td><span class="box-pill box-' + (c.box || 1) + '">B' + (c.box || 1) + '</span></td>' +
+        '<td><button type="button" class="del-btn" data-idx="' + idx + '" title="Delete card">&times;</button></td>';
+      tbody.appendChild(tr);
+    });
+
+    var delBtns = tbody.querySelectorAll('.del-btn');
+    delBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var i = parseInt(this.getAttribute('data-idx'), 10);
+        deck.splice(i, 1);
+        saveDecks();
+        updateDeckUI();
+        showToast('Card deleted');
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function rateCard(advance) {
+    var deck = getCurrentDeck();
+    if (deck.length === 0) return;
+
+    var card = deck[currentIndex];
+    var oldBox = card.box || 1;
+    if (advance) {
+      card.box = Math.min(5, oldBox + 1);
+      showToast('Moved to Box ' + card.box + ' (+1 Level)');
+    } else {
+      card.box = 1;
+      showToast('Returned to Box 1 for review');
+    }
+
+    saveDecks();
+    currentIndex = (currentIndex + 1) % deck.length;
+    updateDeckUI();
+  }
+
+  // Event handlers
+  $('flashcardWrap').addEventListener('click', flipCard);
+  $('flashcardWrap').addEventListener('keydown', function (e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      flipCard();
+    }
+  });
+
+  $('btnAgain').addEventListener('click', function () { rateCard(false); });
+  $('btnGood').addEventListener('click', function () { rateCard(true); });
+
+  // Global Keyboard Navigation
+  window.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    if (e.code === 'Space') {
+      e.preventDefault();
+      flipCard();
+    } else if (e.key === '1') {
+      e.preventDefault();
+      rateCard(false);
+    } else if (e.key === '2') {
+      e.preventDefault();
+      rateCard(true);
+    }
+  });
+
+  $('btnShuffle').addEventListener('click', function () {
+    var deck = getCurrentDeck();
+    for (var i = deck.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = deck[i];
+      deck[i] = deck[j];
+      deck[j] = temp;
+    }
+    currentIndex = 0;
+    saveDecks();
+    updateDeckUI();
+    showToast('Deck shuffled');
+  });
+
+  $('btnResetProgress').addEventListener('click', function () {
+    var deck = getCurrentDeck();
+    deck.forEach(function (c) { c.box = 1; });
+    currentIndex = 0;
+    saveDecks();
+    updateDeckUI();
+    showToast('All cards reset to Box 1');
+  });
+
+  $('selPresetDeck').addEventListener('change', function () {
+    currentDeckKey = this.value;
+    currentIndex = 0;
+    saveDecks();
+    updateDeckUI();
+    showToast('Switched study deck');
+  });
+
+  $('btnAddCard').addEventListener('click', function () {
+    var front = $('newFront').value.trim();
+    var back = $('newBack').value.trim();
+    if (!front || !back) {
+      showToast('Please enter both front prompt and back answer.');
+      return;
+    }
+    var deck = getCurrentDeck();
+    deck.push({ front: front, back: back, box: 1 });
+    saveDecks();
+    $('newFront').value = '';
+    $('newBack').value = '';
+    updateDeckUI();
+    showToast('Flashcard added to deck!');
+  });
+
+  $('btnExportJson').addEventListener('click', function () {
+    var deck = getCurrentDeck();
+    var blob = new Blob([JSON.stringify(deck, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = currentDeckKey + '_flashcards.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Deck exported as JSON');
+  });
+
+  $('btnShareApp').addEventListener('click', function () {
+    var shareMsg = '🗂️ Free Spaced Repetition Flashcards\n👉 ' + TOOL_NAME + ': ' + SITE + '/';
+    if (navigator.share) {
+      navigator.share({ title: TOOL_NAME, text: shareMsg, url: SITE + '/' }).catch(function (e) {
+        if (!e || e.name !== 'AbortError') showToast('Link ready to share!');
+      });
+    } else {
+      showToast('Flashcards URL: ' + SITE + '/');
+    }
+  });
+
+  loadDecks();
+})();
+</script>
+<!-- LOGIC END -->
 </body>
 </html>
